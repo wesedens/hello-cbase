@@ -22,6 +22,7 @@ vars = {
   "gyp_revision": "1719",
 
   "chrome_base": "http://src.chromium.org/svn/trunk",
+  "tools_base": "https://chromium.googlesource.com/chromium/tools",
 }
 
 deps = {
@@ -61,7 +62,7 @@ deps = {
   "src/tools/gyp":
     "http://gyp.googlecode.com/svn/trunk@" + Var("gyp_revision"),
   "src/tools/swarming_client":
-    Var("chrome_base") + "/src/tools/swarming_client@" + Var("chrome_revision"),
+    Var("tools_base") + "/swarm_client.git@" + Var("chrome_revision"),
   "src/tools/xdisplaycheck":
     Var("chrome_base") + "/src/tools/xdisplaycheck@" + Var("chrome_revision"),
 }
