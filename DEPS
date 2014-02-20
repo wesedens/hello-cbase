@@ -43,8 +43,6 @@ deps = {
 
   "src/build":
     Var("chrome_base") + "/src/build@" + Var("chrome_revision"),
-  "src/tools/win":
-    Var("chrome_base") + "/src/tools/win@" + Var("chrome_revision"),
 
   "src/testing":
     Var("chrome_base") + "/src/testing@" + Var("chrome_revision"),
@@ -55,9 +53,6 @@ deps = {
 
   "src/tools/gyp":
     "http://gyp.googlecode.com/svn/trunk@" + Var("gyp_revision"),
-
-  "src/tools/code_coverage":
-    Var("chrome_base") + "/src/tools/code_coverage@" + Var("chrome_revision"),
 }
 
 
