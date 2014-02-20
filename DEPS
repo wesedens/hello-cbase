@@ -62,6 +62,9 @@ deps = {
 
   "src/tools/gyp":
     "http://gyp.googlecode.com/svn/trunk@" + Var("gyp_revision"),
+  "src/tools/find_depot_tools.py":
+    Var("chromium_git") + "/src/tools/find_depot_tools.py.git@" +
+        Var("chrome_revision"),
   "src/tools/swarming_client":
     Var("chromium_git") + "/external/swarming.client.git@" +
         Var("swarming_revision"),
