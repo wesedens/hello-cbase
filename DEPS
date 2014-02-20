@@ -60,6 +60,8 @@ deps = {
 
   "src/tools/gyp":
     "http://gyp.googlecode.com/svn/trunk@" + Var("gyp_revision"),
+  "src/tools/swarming_client":
+    Var("chrome_base") + "/src/tools/swarming_client@" + Var("chrome_revision"),
   "src/tools/xdisplaycheck":
     Var("chrome_base") + "/src/tools/xdisplaycheck@" + Var("chrome_revision"),
 }

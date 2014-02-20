@@ -48,6 +48,9 @@
 # Ignore doxygen output.
 /syzygy/doc/
 
+# Ignore build directory
+/out/
+
 # Ignore directories gclient syncs.
 /base/
 /build/
