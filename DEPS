@@ -20,9 +20,10 @@ vars = {
   "gmock_revision": "453",
   "gtest_revision": "664",
   "gyp_revision": "1719",
+  "swarming_revision": "5b47578a4c25b1447172c78bcfce8c1fc7a69839",
 
   "chrome_base": "http://src.chromium.org/svn/trunk",
-  "tools_base": "https://chromium.googlesource.com/chromium/tools",
+  "chromium_git": "https://chromium.googlesource.com",
 }
 
 deps = {
@@ -62,7 +63,8 @@ deps = {
   "src/tools/gyp":
     "http://gyp.googlecode.com/svn/trunk@" + Var("gyp_revision"),
   "src/tools/swarming_client":
-    Var("tools_base") + "/swarm_client.git@" + Var("chrome_revision"),
+    Var("chromium_git") + "/external/swarming.client.git@" +
+        Var("swarming_revision"),
   "src/tools/xdisplaycheck":
     Var("chrome_base") + "/src/tools/xdisplaycheck@" + Var("chrome_revision"),
 }
