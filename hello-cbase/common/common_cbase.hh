@@ -1,0 +1,3 @@
+
+void common_print();
+
