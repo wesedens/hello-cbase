@@ -61,7 +61,7 @@ deps = {
   "src/tools/gyp":
     "http://gyp.googlecode.com/svn/trunk@" + Var("gyp_revision"),
   "src/tools/xdisplaycheck":
-    Var("chrome_base") + "/tools/xdisplaycheck/@" + Var("chrome_revision"),
+    Var("chrome_base") + "/tools/xdisplaycheck@" + Var("chrome_revision"),
 }
 
 
