@@ -17,7 +17,7 @@
     'chromium_code': 1,
   },
   'includes': [
-    'unittests.gypi',
+    #'unittests.gypi',
   ],
   'targets': [
     {

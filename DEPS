@@ -37,6 +37,9 @@ deps = {
   "src/third_party/icu":
     Var("chrome_base") + "/deps/third_party/icu46@" +
         Var("chrome_revision"),
+  "src/third_party/modp_b64":
+    Var("chrome_base") + "/src/third_party/modp_b64@" +
+        Var("chrome_revision"),
   "src/third_party/tcmalloc":
     Var("chrome_base") + "/src/third_party/tcmalloc@" +
         Var("chrome_revision"),
@@ -69,6 +72,6 @@ hooks = [
     "action": ["python",
                "src/build/gyp_chromium",
                "--include=src/hello-cbase/hello-cbase.gypi",
-               "src/hello-cbase/build/all.gyp"],
+               "src/hello-cbase/hello-cbase.gyp"],
   },
 ]
