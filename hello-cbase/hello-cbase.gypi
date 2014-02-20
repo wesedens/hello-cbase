@@ -22,8 +22,6 @@
     # is different.
     'src': '<(DEPTH)',
     'clang_use_chrome_plugins': 0,
-    'use_openssl': 0,
-    'use_nss': 0,
   },
   'target_defaults': {
     'include_dirs': [

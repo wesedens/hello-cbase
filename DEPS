@@ -44,6 +44,10 @@ deps = {
     Var("chrome_base") + "/src/third_party/tcmalloc@" +
         Var("chrome_revision"),
 
+  "src/net/third_party/nss":
+    Var("chrome_base") + "/src/net/third_party/nss@" +
+        Var("chrome_revision"),
+
   "src/build":
     Var("chrome_base") + "/src/build@" + Var("chrome_revision"),
 
