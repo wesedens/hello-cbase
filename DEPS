@@ -67,6 +67,8 @@ deps = {
   "src/tools/find_depot_tools.py":
     File(Var("chrome_base") + "/src/tools/find_depot_tools.py@" +
         Var("chrome_revision")),
+  "src/tools/gn":
+    Var("chrome_base") + "/src/tools/gn@" + Var("chrome_revision"),
   "src/tools/swarming_client":
     Var("chromium_git") + "/external/swarming.client.git@" +
         Var("swarming_revision"),
