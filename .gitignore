@@ -58,6 +58,7 @@
 
 /net/third_party/nss/
 /testing/
+/third_party/gold/
 /third_party/icu/
 /third_party/libevent/
 /third_party/libxml/
