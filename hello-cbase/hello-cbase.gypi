@@ -22,6 +22,7 @@
     # is different.
     'src': '<(DEPTH)',
     'clang_use_chrome_plugins': 0,
+    'linux_use_tcmalloc':0,
   },
   'target_defaults': {
     'include_dirs': [
