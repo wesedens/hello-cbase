@@ -33,6 +33,9 @@ deps = {
   "src/build":
     Var("chrome_base") + "/src/build@" + Var("chrome_revision"),
 
+  "src/ipc":
+    Var("chrome_base") + "/src/ipc@" + Var("chrome_revision"),
+
   "src/third_party/gold":
     Var("chrome_base") + "/deps/third_party/gold@" +
         Var("chrome_revision"),
