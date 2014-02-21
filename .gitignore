@@ -54,7 +54,7 @@
 # Ignore directories gclient syncs.
 /base/
 /build/
-/syzygy/internal
+/ipc/
 
 /net/third_party/nss/
 /testing/
