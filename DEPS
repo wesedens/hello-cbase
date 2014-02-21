@@ -30,14 +30,17 @@ deps = {
   "src/base":
     Var("chrome_base") + "/src/base@" + Var("chrome_revision"),
 
-  "src/third_party/zlib":
-    Var("chrome_base") + "/src/third_party/zlib@" +
+  "src/build":
+    Var("chrome_base") + "/src/build@" + Var("chrome_revision"),
+
+  "src/third_party/gold":
+    Var("chrome_base") + "/deps/third_party/gold@" +
+        Var("chrome_revision")",
+  "src/third_party/icu":
+    Var("chrome_base") + "/deps/third_party/icu46@" +
         Var("chrome_revision"),
   "src/third_party/libevent":
     Var("chrome_base") + "/src/third_party/libevent@" +
-        Var("chrome_revision"),
-  "src/third_party/icu":
-    Var("chrome_base") + "/deps/third_party/icu46@" +
         Var("chrome_revision"),
   "src/third_party/libxml":
     Var("chrome_base") + "/src/third_party/libxml@" +
@@ -48,13 +51,13 @@ deps = {
   "src/third_party/tcmalloc":
     Var("chrome_base") + "/src/third_party/tcmalloc@" +
         Var("chrome_revision"),
+  "src/third_party/zlib":
+    Var("chrome_base") + "/src/third_party/zlib@" +
+        Var("chrome_revision"),
 
   "src/net/third_party/nss":
     Var("chrome_base") + "/src/net/third_party/nss@" +
         Var("chrome_revision"),
-
-  "src/build":
-    Var("chrome_base") + "/src/build@" + Var("chrome_revision"),
 
   "src/testing":
     Var("chrome_base") + "/src/testing@" + Var("chrome_revision"),
@@ -65,8 +68,6 @@ deps = {
 
   "src/tools/gyp":
     "http://gyp.googlecode.com/svn/trunk@" + Var("gyp_revision"),
-  #"src/tools":
-  #  Var("chrome_base") + "/src/tools@" + Var("chrome_revision"),
   "src/tools/find_depot_tools.py":
     File(Var("chrome_base") + "/src/tools/find_depot_tools.py@" +
         Var("chrome_revision")),
