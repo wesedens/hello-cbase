@@ -84,6 +84,51 @@ include_rules = [
 ]
 
 hooks = [
+  # Pull GN binaries. This needs to be before running GYP below.
+  {
+    "name": "gn_win",
+    "pattern": "src/tools/gn/bin/win/gn.exe.sha1",
+    "action": [ "download_from_google_storage",
+                "--no_resume",
+                "--platform=win32",
+                "--no_auth",
+                "--bucket", "chromium-gn",
+                "-s", "src/tools/gn/bin/win/gn.exe.sha1",
+    ],
+  },
+  {
+    "name": "gn_mac",
+    "pattern": "src/tools/gn/bin/mac/gn.sha1",
+    "action": [ "download_from_google_storage",
+                "--no_resume",
+                "--platform=darwin",
+                "--no_auth",
+                "--bucket", "chromium-gn",
+                "-s", "src/tools/gn/bin/mac/gn.sha1",
+    ],
+  },
+  {
+    "name": "gn_linux",
+    "pattern": "src/tools/gn/bin/linux/gn.sha1",
+    "action": [ "download_from_google_storage",
+                "--no_resume",
+                "--platform=linux*",
+                "--no_auth",
+                "--bucket", "chromium-gn",
+                "-s", "src/tools/gn/bin/linux/gn.sha1",
+    ],
+  },
+  {
+    "name": "gn_linux32",
+    "pattern": "src/tools/gn/bin/linux/gn32.sha1",
+    "action": [ "download_from_google_storage",
+                "--no_resume",
+                "--platform=linux*",
+                "--no_auth",
+                "--bucket", "chromium-gn",
+                "-s", "src/tools/gn/bin/linux/gn32.sha1",
+    ],
+  },
   {
     # A change to a .gyp, .gypi, or to GYP itself should run the generator.
     "pattern": ".",
