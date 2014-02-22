@@ -136,6 +136,13 @@ hooks = [
                 "-s", "src/tools/gn/bin/linux/gn32.sha1",
     ],
   },
+  #{
+  #  # apply a patch for issue 150703003
+  #  # https://codereview.chromium.org/150703003
+  #  "pattern": ".",
+  #  "action": ["patch -d src/base/i18n",
+  #             "< src/issue150703003_1.diff"],
+  #},
   {
     # A change to a .gyp, .gypi, or to GYP itself should run the generator.
     "pattern": ".",
