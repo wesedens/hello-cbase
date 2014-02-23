@@ -71,7 +71,7 @@ deps = {
 
   "src/tools/gyp":
     "http://gyp.googlecode.com/svn/trunk@" + Var("gyp_revision"),
-  "src/tools/find_depot_tools.py":
+  "src/tools":
     File(Var("chrome_base") + "/src/tools/find_depot_tools.py@" +
         Var("chrome_revision")),
   "src/tools/gn":
