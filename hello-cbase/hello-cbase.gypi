@@ -21,6 +21,7 @@
     # the relative depth of a pure git repository and an SVN repository
     # is different.
     'src': '<(DEPTH)',
+    'branding_path': '<(DEPTH)/hello-cbase/BRANDING',
     'clang_use_chrome_plugins': 0,
     'linux_use_tcmalloc':0,
   },

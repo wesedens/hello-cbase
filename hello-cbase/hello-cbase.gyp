@@ -18,7 +18,30 @@
   },
   'includes': [
     #'unittests.gypi',
+    '../build/util/version.gypi',
   ],
+  'target_defaults': {
+    'actions': [{
+      'action_name': 'Make cbase_version.cc',
+      'variables': {
+        'make_version_cc_path': 'tools/build/make_version_cc.py',
+      },
+      'inputs': [
+        '<(make_version_cc_path)',
+        'VERSION',
+      ],
+      'outputs': [
+        '<(INTERMEDIATE_DIR)/cbase_version.cc',
+      ],
+      'action': [
+        'python',
+        '<(make_version_cc_path)',
+        '<@(_outputs)',
+        '<(version_full)',
+      ],
+      'process_outputs_as_sources': 1,
+    },],
+  },
   'targets': [
     {
       'target_name': 'build_all',
@@ -36,5 +59,38 @@
     #    '<@(unittests)',
     #  ],
     #},
+    {
+      'target_name': 'cbase_version_header',
+      'type': 'none',
+      'hard_dependency': 1,
+      'actions': [
+        {
+          'action_name': 'version_header',
+          'variables': {
+            'lastchange_path':
+              '<(DEPTH)/build/util/LASTCHANGE',
+          },
+          'inputs': [
+            '<(version_path)',
+            '<(branding_path)',
+            #'<(lastchange_path)',
+            'version.h.in',
+          ],
+          'outputs': [
+            '<(SHARED_INTERMEDIATE_DIR)/version.h',
+          ],
+          'action': [
+            'python',
+            '<(version_py_path)',
+            '-f', '<(version_path)',
+            '-f', '<(branding_path)',
+            #'-f', '<(lastchange_path)',
+            'version.h.in',
+            '<@(_outputs)',
+          ],
+          'message': 'Generating version header file: <@(_outputs)',
+        },
+      ],
+    },
   ],
 }

@@ -16,6 +16,9 @@
   'variables': {
     'chromium_code': 1,
   },
+  'includes': [
+      '../../build/util/version.gypi',
+  ],
   'target_defaults': {
     'include_dirs': [
       '../..',
