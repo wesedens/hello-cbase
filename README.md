@@ -8,9 +8,9 @@ hello-cbase uses the same build tools as Chromium, so you'll need to set up the 
 
 Once this is done, you can fetch the sources by doing:
 
->`mkdir hello-cbase` 
->`cd hello-cbase` 
->`gclient config https://github.com/wesedens/hello-cbase.git --name=src` 
->`gclient sync` 
+>`mkdir hello-cbase`  
+>`cd hello-cbase`  
+>`gclient config https://github.com/wesedens/hello-cbase.git --name=src`  
+>`gclient sync`  
 
 For the time being, gclient sync will error out while trying to run `gyp_chromium`. I'm not sure how to get around this yet.
