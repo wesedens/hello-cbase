@@ -2,6 +2,29 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
+custom("version") {
+  script = "//build/util/version.py"
+
+  # This script must be run before targets depending on us.
+  hard_dep = true
+
+  # Rerun the script any time this file changes.
+  version_path   = "//hello-cbase/VERSION"
+  source_prereqs = [ version_path ]
+
+  output_header = "$target_gen_dir/version.h"
+  outputs = [ output_header ]
+
+  #build_relative_src = rebase_path("//", root_build_dir)
+  #build_relative_outputs = rebase_path(output_header, root_build_dir)
+  build_version_path = rebase_path(version_path, root_build_dir)
+
+  args = [
+    "-f", "$build_version_path",
+    "-t '@MAJOR@.@MINOR@.@BUILD@.@PATCH@'",
+  ]
+}
+
 # we need a target matching the parent folder name
 executable("hello-cbase") {
   sources = [
@@ -15,6 +38,7 @@ executable("hello-cbase") {
 
   deps = [
     "//build/util:last_change",
+    ":version",
     "//base",
   ]
 }

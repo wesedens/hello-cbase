@@ -12,14 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# hello-cbase builds on Chrome base, uses GYP, GTest, all of which requires
+# hello-cbase builds on Chromium base, uses gn, GTest, all of which requires
 # this build configuration.
 
 vars = {
   "chrome_revision": "252579",
   "gmock_revision": "453",
   "gtest_revision": "677",
-  "gyp_revision": "1855",
   "swarming_revision": "5b47578a4c25b1447172c78bcfce8c1fc7a69839",
 
   "chrome_base": "http://src.chromium.org/svn/trunk",
@@ -81,6 +80,7 @@ hooks = [
      "name": "lastchange",
      "pattern": ".",
      "action": ["python", "src/build/util/lastchange.py",
+                "--source-dir=src",
                 "-o", "src/build/util/LASTCHANGE"],
    },
   # Pull GN binaries. This needs to be before running GYP below.
