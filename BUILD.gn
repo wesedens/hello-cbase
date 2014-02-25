@@ -10,16 +10,8 @@
 
 # In GN, a "group" is a dummy target that just lists other targets.
 group("root") {
-  # Declares that this target should be treated as "external" in the GN-GYP
-  # hybrid build, and GN will not generate a GYP file for it. This flag is
-  # ignored in the pure GN build.
-  external = true
 
   deps = [
-    "//base(//build/toolchain/nacl:x86_newlib)",
-    "//net/third_party/nss:ssl",
-    "//third_party/icu:icudata",
-    "//third_party/zlib",
-    "//tools/gn",
+    "//base",
   ]
 }
