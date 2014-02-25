@@ -18,6 +18,7 @@
   },
   'includes': [
     #'unittests.gypi',
+    'hello-cbase.gypi',
     '../build/util/version.gypi',
   ],
   'target_defaults': {

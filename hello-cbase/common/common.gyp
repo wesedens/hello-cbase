@@ -22,6 +22,7 @@
   'target_defaults': {
     'include_dirs': [
       '../..',
+      '<(SHARED_INTERMEDIATE_DIR)',
     ],
   },
   'targets': [
@@ -33,7 +34,6 @@
       ],
       'dependencies': [
         '<(DEPTH)/base/base.gyp:base',
-        '<(DEPTH)/testing/gmock.gyp:gmock',
       ],
       'sources': [
         'common_cbase.cc',

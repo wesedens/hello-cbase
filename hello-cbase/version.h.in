@@ -7,8 +7,8 @@
 
 // Version Information
 
-#define CHROME_VERSION @MAJOR@,@MINOR@,@BUILD@,@PATCH@
-#define CHROME_VERSION_STRING "@MAJOR@.@MINOR@.@BUILD@.@PATCH@"
+#define CBASE_VERSION @MAJOR@,@MINOR@,@BUILD@,@PATCH@
+#define CBASE_VERSION_STRING "@MAJOR@.@MINOR@.@BUILD@.@PATCH@"
 
 // Branding Information
 

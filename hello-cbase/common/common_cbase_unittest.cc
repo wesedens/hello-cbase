@@ -4,12 +4,17 @@
 
 #include "base/command_line.h"
 #include "base/logging.h"
+#include "base/version.h"
+#include "version.h"  // NOLINT
+
 
 int main(int argc, char* argv[])
 {
+    static Version cbase_version(CBASE_VERSION_STRING);
     CHECK(CommandLine::Init(argc, argv));
 
     const CommandLine& command_line = *CommandLine::ForCurrentProcess();
+    LOG(INFO) << cbase_version.GetString();
     std::string greeting = command_line.GetSwitchValueASCII("greeting");
     if (greeting.empty())
         greeting = "Hello";
