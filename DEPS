@@ -128,4 +128,9 @@ hooks = [
                 "-s", "src/tools/gn/bin/linux/gn32.sha1",
     ],
   },
+  #{
+  #  # run generate ninja upon completion of sync
+  #  "pattern": ".",
+  #  "action": ["gn", "--root=src", "gen", "out/gn"],
+  #},
 ]
