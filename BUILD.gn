@@ -10,8 +10,10 @@
 
 # In GN, a "group" is a dummy target that just lists other targets.
 group("root") {
+  external = true
 
   deps = [
-    "//base",
+    "//hello-cbase",
+    #"//hello-cbase:hello-cbase-unittest",
   ]
 }

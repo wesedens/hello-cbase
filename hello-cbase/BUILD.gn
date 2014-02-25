@@ -1,0 +1,135 @@
+# Copyright (c) 2012 The Chromium Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+# we need a target matching the parent folder name
+executable("hello-cbase") {
+  sources = [
+    "common/hello_cbase_main.cc",
+  ]
+  include_dirs = [ target_gen_dir ]
+
+  defines = [
+    "_HELLO_CBASE_",
+  ]
+
+  deps = [
+    "//build/util:last_change",
+    "//base",
+  ]
+}
+
+# TODO make this an action in gn
+# create version constant file
+#'target_defaults': {
+#    'actions': [{
+#      'action_name': 'Make cbase_version.cc',
+#      'variables': {
+#        'make_version_cc_path': 'tools/build/make_version_cc.py',
+#      },
+#      'inputs': [
+#        '<(make_version_cc_path)',
+#        'VERSION',
+#      ],
+#      'outputs': [
+#        '<(INTERMEDIATE_DIR)/cbase_version.cc',
+#      ],
+#      'action': [
+#        'python',
+#        '<(make_version_cc_path)',
+#        '<@(_outputs)',
+#        '<(version_full)',
+#      ],
+#      'process_outputs_as_sources': 1,
+#    },],
+#  },
+#'branding_path': '<(DEPTH)/hello-cbase/BRANDING',
+
+# TODO make this an action in gn
+# create version header
+#version build scripts from gyp
+#
+#{
+#  'variables': {
+#    'variables': {
+#      'version_py_path': '<(DEPTH)/build/util/version.py',
+#      'version_path': '<(DEPTH)/chrome/VERSION',
+#    },
+#    'version_py_path': '<(version_py_path)',
+#    'version_path': '<(version_path)',
+#    'version_full':
+#        '<!(python <(version_py_path) -f <(version_path) -t "@MAJOR@.@MINOR@.@BUILD@.@PATCH@")',
+#    'version_mac_dylib':
+#        '<!(python <(version_py_path) -f <(version_path) -t "@BUILD@.@PATCH_HI@.@PATCH_LO@" -e "PATCH_HI=int(PATCH)/256" -e "PATCH_LO=int(PATCH)%256")',
+#  },  # variables
+#}
+#  taken from gyp file
+# {
+#       'target_name': 'cbase_version_header',
+#       'type': 'none',
+#       'hard_dependency': 1,
+#       'actions': [
+#         {
+#           'action_name': 'version_header',
+#           'variables': {
+#             'lastchange_path':
+#               '<(DEPTH)/build/util/LASTCHANGE',
+#           },
+#           'inputs': [
+#             '<(version_path)',
+#             '<(branding_path)',
+#             #'<(lastchange_path)',
+#             'version.h.in',
+#           ],
+#           'outputs': [
+#             '<(SHARED_INTERMEDIATE_DIR)/version.h',
+#           ],
+#           'action': [
+#             'python',
+#             '<(version_py_path)',
+#             '-f', '<(version_path)',
+#             '-f', '<(branding_path)',
+#             #'-f', '<(lastchange_path)',
+#             'version.h.in',
+#             '<@(_outputs)',
+#           ],
+#           'message': 'Generating version header file: <@(_outputs)',
+#         },
+#       ],
+#     },
+
+
+
+## Config used only by ICU code.
+#config("icu_code") {
+#  if (component_mode == "static_library") {
+#    defines = [ "U_STATIC_IMPLEMENTATION" ]
+#  }
+#
+#  if (is_win) {
+#    # Disable some compiler warnings.
+#    cflags = [
+#      "/wd4005",  # Macro redefinition.
+#      "/wd4068",  # Unknown pragmas.
+#      "/wd4267",  # Conversion from size_t on 64-bits.
+#      "/wd4996",  # Deprecated functions.
+#    ]
+#  } else if (is_linux) {
+#    cflags = [
+#      # Since ICU wants to internally use its own deprecated APIs, don't
+#      # complain about it.
+#      "-Wno-deprecated-declarations",
+#      "-Wno-unused-function",
+#    ]
+#  } else if (is_clang) {
+#    cflags = [
+#      "-Wno-deprecated-declarations",
+#      "-Wno-logical-op-parentheses",
+#      "-Wno-tautological-compare",
+#      "-Wno-switch",
+#    ]
+#  }
+#}
+
+
+
