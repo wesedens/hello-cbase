@@ -39,6 +39,9 @@ deps = {
   "src/third_party/gold":
     Var("chrome_base") + "/deps/third_party/gold@" +
         Var("chrome_revision"),
+  "src/third_party/icu":
+    Var("chrome_base") + "/deps/third_party/icu46@" +
+        Var("chrome_revision"),
   "src/third_party/libevent":
     Var("chrome_base") + "/src/third_party/libevent@" +
         Var("chrome_revision"),
