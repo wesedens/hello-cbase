@@ -56,8 +56,6 @@ deps = {
   "src/testing/gtest":
     "http://googletest.googlecode.com/svn/trunk@" + Var("gtest_revision"),
 
-  #"src/tools/gyp":
-  #  "http://gyp.googlecode.com/svn/trunk@" + Var("gyp_revision"),
   "src/tools":
     File(Var("chrome_base") + "/src/tools/find_depot_tools.py@" +
         Var("chrome_revision")),
@@ -129,20 +127,5 @@ hooks = [
                 "--bucket", "chromium-gn",
                 "-s", "src/tools/gn/bin/linux/gn32.sha1",
     ],
-  },
-  #{
-  #  # apply a patch for issue 150703003
-  #  # https://codereview.chromium.org/150703003
-  #  "pattern": ".",
-  #  "action": ["patch -d src/base/i18n",
-  #             "< src/issue150703003_1.diff"],
-  #},
-  {
-    # A change to a .gyp, .gypi, or to GYP itself should run the generator.
-    "pattern": ".",
-    "action": ["python",
-               "src/build/gyp_chromium",
-               "--include=src/hello-cbase/hello-cbase.gypi",
-               "src/hello-cbase/hello-cbase.gyp"],
   },
 ]
