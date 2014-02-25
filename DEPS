@@ -39,27 +39,8 @@ deps = {
   "src/third_party/gold":
     Var("chrome_base") + "/deps/third_party/gold@" +
         Var("chrome_revision"),
-  "src/third_party/icu":
-    Var("chrome_base") + "/deps/third_party/icu46@" +
-        Var("chrome_revision"),
-  "src/third_party/libevent":
-    Var("chrome_base") + "/src/third_party/libevent@" +
-        Var("chrome_revision"),
-  "src/third_party/libxml":
-    Var("chrome_base") + "/src/third_party/libxml@" +
-        Var("chrome_revision"),
   "src/third_party/modp_b64":
     Var("chrome_base") + "/src/third_party/modp_b64@" +
-        Var("chrome_revision"),
-  "src/third_party/tcmalloc":
-    Var("chrome_base") + "/src/third_party/tcmalloc@" +
-        Var("chrome_revision"),
-  "src/third_party/zlib":
-    Var("chrome_base") + "/src/third_party/zlib@" +
-        Var("chrome_revision"),
-
-  "src/net/third_party/nss":
-    Var("chrome_base") + "/src/net/third_party/nss@" +
         Var("chrome_revision"),
 
   "src/testing":
@@ -69,8 +50,8 @@ deps = {
   "src/testing/gtest":
     "http://googletest.googlecode.com/svn/trunk@" + Var("gtest_revision"),
 
-  "src/tools/gyp":
-    "http://gyp.googlecode.com/svn/trunk@" + Var("gyp_revision"),
+  #"src/tools/gyp":
+  #  "http://gyp.googlecode.com/svn/trunk@" + Var("gyp_revision"),
   "src/tools":
     File(Var("chrome_base") + "/src/tools/find_depot_tools.py@" +
         Var("chrome_revision")),
@@ -91,6 +72,13 @@ include_rules = [
 ]
 
 hooks = [
+  {
+     # Update LASTCHANGE
+     "name": "lastchange",
+     "pattern": ".",
+     "action": ["python", "src/build/util/lastchange.py",
+                "-o", "src/build/util/LASTCHANGE"],
+   },
   # Pull GN binaries. This needs to be before running GYP below.
   {
     "name": "gn_win",
