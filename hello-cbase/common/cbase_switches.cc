@@ -6,7 +6,7 @@
 
 #include "cbase_switches.hh"
 
-namespace switches2 {
+namespace switches {
 
 // runs the bind and callback test
 const char kBindTest[] = "bind-test";

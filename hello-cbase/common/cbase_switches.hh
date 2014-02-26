@@ -6,7 +6,7 @@
 #include "base/base_switches.h"
 
 
-namespace switches2 {
+namespace switches {
 
 extern const char kBindTest[];
 extern const char kCommandLineTest[];

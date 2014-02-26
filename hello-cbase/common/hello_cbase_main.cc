@@ -181,7 +181,7 @@ int main(int argc, char* argv[])
     printf("lastchange hash: %s\n", LASTCHANGE_STRING);
 
 
-    if (command_line.HasSwitch(switches2::kLogTest)) {
+    if (command_line.HasSwitch(switches::kLogTest)) {
         // logging test
         printf("\nRunning log test\n\n");
 
@@ -192,7 +192,7 @@ int main(int argc, char* argv[])
         LogTest();
     }
 
-    if (command_line.HasSwitch(switches2::kBindTest)) {
+    if (command_line.HasSwitch(switches::kBindTest)) {
         // Bind and callback test
         printf("\nRunning bind test\n\n");
         int n;
@@ -203,7 +203,7 @@ int main(int argc, char* argv[])
         BindTest(n);
     }
 
-    if (command_line.HasSwitch(switches2::kThreadTest)) {
+    if (command_line.HasSwitch(switches::kThreadTest)) {
         // task and thread test
         printf("\nRunning thread test\n\n");
         int n;
@@ -214,7 +214,7 @@ int main(int argc, char* argv[])
         TaskRunnerTest(n);
     }
 
-    if (command_line.HasSwitch(switches2::kCommandLineTest)) {
+    if (command_line.HasSwitch(switches::kCommandLineTest)) {
         // command line arguments test
         printf("\nRunning command line test\n\n");
         CommandLineTest(command_line);
