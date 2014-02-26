@@ -38,6 +38,8 @@ custom("version") {
 # we need a target matching the parent folder name
 executable("hello-cbase") {
   sources = [
+    "common/cbase_switches.cc",
+    "common/cbase_switches.hh",
     "common/hello_cbase_main.cc",
   ]
   include_dirs = [ target_gen_dir ]
@@ -51,6 +53,13 @@ executable("hello-cbase") {
     ":version",
     "//base",
   ]
+
+  #configs -= [
+  #  "//build/config/compiler:chromium_code",
+  #]
+  #configs += [
+  #  "//build/config/compiler:no_chromium_code",
+  #]
 }
 
 # TODO make this an action in gn
@@ -78,61 +87,6 @@ executable("hello-cbase") {
 #    },],
 #  },
 #'branding_path': '<(DEPTH)/hello-cbase/BRANDING',
-
-# TODO make this an action in gn
-# create version header
-#version build scripts from gyp
-#
-#{
-#  'variables': {
-#    'variables': {
-#      'version_py_path': '<(DEPTH)/build/util/version.py',
-#      'version_path': '<(DEPTH)/chrome/VERSION',
-#    },
-#    'version_py_path': '<(version_py_path)',
-#    'version_path': '<(version_path)',
-#    'version_full':
-#        '<!(python <(version_py_path) -f <(version_path) -t "@MAJOR@.@MINOR@.@BUILD@.@PATCH@")',
-#    'version_mac_dylib':
-#        '<!(python <(version_py_path) -f <(version_path) -t "@BUILD@.@PATCH_HI@.@PATCH_LO@" -e "PATCH_HI=int(PATCH)/256" -e "PATCH_LO=int(PATCH)%256")',
-#  },  # variables
-#}
-#  taken from gyp file
-# {
-#       'target_name': 'cbase_version_header',
-#       'type': 'none',
-#       'hard_dependency': 1,
-#       'actions': [
-#         {
-#           'action_name': 'version_header',
-#           'variables': {
-#             'lastchange_path':
-#               '<(DEPTH)/build/util/LASTCHANGE',
-#           },
-#           'inputs': [
-#             '<(version_path)',
-#             '<(branding_path)',
-#             #'<(lastchange_path)',
-#             'version.h.in',
-#           ],
-#           'outputs': [
-#             '<(SHARED_INTERMEDIATE_DIR)/version.h',
-#           ],
-#           'action': [
-#             'python',
-#             '<(version_py_path)',
-#             '-f', '<(version_path)',
-#             '-f', '<(branding_path)',
-#             #'-f', '<(lastchange_path)',
-#             'version.h.in',
-#             '<@(_outputs)',
-#           ],
-#           'message': 'Generating version header file: <@(_outputs)',
-#         },
-#       ],
-#     },
-
-
 
 ## Config used only by ICU code.
 #config("icu_code") {
