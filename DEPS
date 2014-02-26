@@ -16,10 +16,10 @@
 # this build configuration.
 
 vars = {
-  "chrome_revision": "252579",
+  "chrome_revision": "253073",
   "gmock_revision": "453",
   "gtest_revision": "677",
-  "swarming_revision": "5b47578a4c25b1447172c78bcfce8c1fc7a69839",
+  "swarming_revision": "4196cfcee5becb6003174661b6af40cb5b1af126",
 
   "chrome_base": "http://src.chromium.org/svn/trunk",
   "chromium_git": "https://chromium.googlesource.com",

@@ -9,19 +9,29 @@ custom("version") {
   hard_dep = true
 
   # Rerun the script any time this file changes.
-  version_path   = "//hello-cbase/VERSION"
-  source_prereqs = [ version_path ]
+  version_path    = "//hello-cbase/VERSION"
+  branding_path   = "//hello-cbase/BRANDING"
+  lastchange_path = "//build/util/LASTCHANGE"
+  source_prereqs  = [ version_path,
+                      branding_path,
+                      lastchange_path ]
 
-  output_header = "$target_gen_dir/version.h"
-  outputs = [ output_header ]
+  template_header = "//hello-cbase/version.h.in"
+  output_header   = "$root_gen_dir/version.h"
+  outputs         = [ output_header ]
 
-  #build_relative_src = rebase_path("//", root_build_dir)
-  #build_relative_outputs = rebase_path(output_header, root_build_dir)
-  build_version_path = rebase_path(version_path, root_build_dir)
+  build_version_path    = rebase_path(version_path, root_build_dir)
+  build_branding_path   = rebase_path(branding_path, root_build_dir)
+  build_lastchange_path = rebase_path(lastchange_path, root_build_dir)
+  build_version_header  = rebase_path(output_header, root_build_dir)
+  build_template_header = rebase_path(template_header, root_build_dir)
 
   args = [
     "-f", "$build_version_path",
-    "-t '@MAJOR@.@MINOR@.@BUILD@.@PATCH@'",
+    "-f", "$build_branding_path",
+    "-f", "$build_lastchange_path",
+    "-i", "$build_template_header",
+    "-o", "$build_version_header",
   ]
 }
 
