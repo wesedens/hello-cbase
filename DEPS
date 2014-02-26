@@ -16,7 +16,7 @@
 # this build configuration.
 
 vars = {
-  "chrome_revision": "253073",
+  "chrome_revision": "253591",
   "gmock_revision": "453",
   "gtest_revision": "677",
   "swarming_revision": "4196cfcee5becb6003174661b6af40cb5b1af126",
