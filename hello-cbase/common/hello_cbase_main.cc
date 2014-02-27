@@ -25,6 +25,7 @@
 #include "cbase_switches.hh"
 
 typedef std::string StringType;
+typedef std::vector<StringType> StringVector;
 
 // task runner
 namespace {
@@ -131,7 +132,7 @@ void BindTest(int limit)
     }
 }
 
-void LogTest()
+void LogInit()
 {
     // init the logging api
     logging::DcheckState dcheck_state =
@@ -140,7 +141,10 @@ void LogTest()
     setting.logging_dest = logging::LOG_DEFAULT;
     setting.dcheck_state = dcheck_state;
     logging::InitLogging(setting);
+}
 
+void LogTest()
+{
     // show some examples of logging
     if (VLOG_IS_ON(2)) {
         printf("vlog is on 2\n");
@@ -172,7 +176,8 @@ int main(int argc, char* argv[])
     base::AtExitManager exit_manager;
     CHECK(CommandLine::Init(argc, argv));
     const CommandLine& command_line = *CommandLine::ForCurrentProcess();
-    const StringType program_name = command_line.GetProgram().BaseName().value();
+    const StringType program_name = command_line.GetProgram().BaseName()
+        .value();
     const char* version =cbase_version.GetString().c_str();
 
     // we go to all the trouble of creating the version file, it'd be nice
@@ -180,6 +185,8 @@ int main(int argc, char* argv[])
     printf("%s: version: %s\n", program_name.c_str(), version);
     printf("lastchange hash: %s\n", LASTCHANGE_STRING);
 
+    StringVector args = command_line.GetArgs();
+    LogInit();
 
     if (command_line.HasSwitch(switches::kLogTest)) {
         // logging test
@@ -195,9 +202,15 @@ int main(int argc, char* argv[])
     if (command_line.HasSwitch(switches::kBindTest)) {
         // Bind and callback test
         printf("\nRunning bind test\n\n");
+
+        if (0 == args.size()) {
+            printf("You must provide an argument for bind test\n");
+            return -1;
+        }
+
         int n;
-        if (!base::StringToInt(argv[1], &n) || n < 2) {
-            printf("%s: invalid n `%s'\n", argv[0], argv[1]);
+        if (!base::StringToInt(args[0].c_str(), &n) || n < 2) {
+            printf("%s: invalid n `%s'\n", argv[0], args[0].c_str());
             return -1;
         }
         BindTest(n);
@@ -206,9 +219,15 @@ int main(int argc, char* argv[])
     if (command_line.HasSwitch(switches::kThreadTest)) {
         // task and thread test
         printf("\nRunning thread test\n\n");
+
+        if (0 == args.size()) {
+            printf("You must provide an argument for thread test\n");
+            return -1;
+        }
+
         int n;
-        if (!base::StringToInt(argv[1], &n) || n < 2) {
-            printf("%s: invalid n `%s'\n", argv[0], argv[1]);
+        if (!base::StringToInt(args[0].c_str(), &n) || n < 2) {
+            printf("%s: invalid (n > 2) n `%s'\n", argv[0], args[0].c_str());
             return -1;
         }
         TaskRunnerTest(n);

@@ -15,7 +15,7 @@ const char kBindTest[] = "bind-test";
 const char kCommandLineTest[] = "command-line-test";
 
 // runs the logging test
-const char kLogTest[] = "log-test" ;
+const char kLogTest[] = "log-test";
 
 // runs the thread and task runner test
 const char kThreadTest[] = "thread-test";
