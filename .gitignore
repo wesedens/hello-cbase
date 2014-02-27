@@ -47,9 +47,6 @@
 # Ignore compiled Python files.
 *.pyc
 
-# Ignore doxygen output.
-/syzygy/doc/
-
 # Ignore build directory
 /out/
 
@@ -58,15 +55,16 @@
 /build/
 /ipc/
 
-/net/third_party/nss/
 /testing/
+/third_party/apple_apsl/
+/third_party/clang_format/
 /third_party/gold/
 /third_party/icu/
 /third_party/libevent/
-/third_party/libxml/
+/third_party/llvm-build/
+/third_party/llvm/
+/third_party/mach_override/
 /third_party/modp_b64/
-/third_party/tcmalloc
-/third_party/zlib/
 /tools/
 
 # Ignore SVN metadata.
