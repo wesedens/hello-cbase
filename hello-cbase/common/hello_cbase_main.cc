@@ -135,11 +135,8 @@ void BindTest(int limit)
 void LogInit()
 {
     // init the logging api
-    logging::DcheckState dcheck_state =
-        logging::ENABLE_DCHECK_FOR_NON_OFFICIAL_RELEASE_BUILDS;
     logging::LoggingSettings setting;
     setting.logging_dest = logging::LOG_DEFAULT;
-    setting.dcheck_state = dcheck_state;
     logging::InitLogging(setting);
 }
 

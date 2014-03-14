@@ -16,7 +16,7 @@
 # this build configuration.
 
 vars = {
-  "chrome_revision": "253591",
+  "chrome_revision": "256972",
   "gmock_revision": "453",
   "gtest_revision": "677",
   "gyp_revision": "1857",
@@ -82,7 +82,7 @@ deps = {
   "src/tools/gn":
     Var("chrome_base") + "/src/tools/gn@" + Var("chrome_revision"),
   "src/tools/gyp":
-    (Var("googlecode_url") % "gyp") + "/trunk@1857",
+    (Var("googlecode_url") % "gyp") + "/trunk@" + Var("gyp_revision"),
   "src/tools/swarming_client":
     Var("chromium_git") + "/external/swarming.client.git@" +
         Var("swarming_revision"),
