@@ -23,6 +23,7 @@
 #include "version.h"  // NOLINT
 
 #include "cbase_switches.hh"
+#include "cbase_constants.hh"
 
 typedef std::string StringType;
 typedef std::vector<StringType> StringVector;
@@ -179,11 +180,13 @@ int main(int argc, char* argv[])
 
     // we go to all the trouble of creating the version file, it'd be nice
     // if we used it
-    printf("%s: version: %s\n", program_name.c_str(), version);
+    printf("%s: version macro: %s\n", program_name.c_str(), version);
+    printf("version: %s\n", cbase::kCbaseVersion);
     printf("lastchange hash: %s\n", LASTCHANGE_STRING);
 
     StringVector args = command_line.GetArgs();
     LogInit();
+
 
     if (command_line.HasSwitch(switches::kLogTest)) {
         // logging test

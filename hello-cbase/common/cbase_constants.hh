@@ -5,6 +5,10 @@
 #ifndef HELLO_CBASE_COMMON_CBASE_CONSTANTS_HH_ 
 #define HELLO_CBASE_COMMON_CBASE_CONSTANTS_HH_ 
 
-extern const char kHelloCbaseVersion[];
+namespace cbase {
+
+extern const char kCbaseVersion[];
+
+}  // namespace cbase
 
 #endif  // HELLO_CBASE_COMMON_CBASE_CONSTANTS_HH_

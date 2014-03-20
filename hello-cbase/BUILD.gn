@@ -35,12 +35,40 @@ custom("version") {
   ]
 }
 
+custom("version-source") {
+  script  = "//hello-cbase/tools/build/make_version_cc.py"
+
+  # This script must be run before targets depending on us.
+  hard_dep = true
+
+  # Rerun the script any time this file changes.
+  version_path    = "//hello-cbase/VERSION"
+  vscript_path    = "//build/util/version.py"
+  source_prereqs  = [ version_path ]
+
+  output_source   = "$root_gen_dir/cbase_version.cc"
+  outputs         = [ output_source ]
+
+  build_version_path  = rebase_path(version_path, root_build_dir)
+  build_vscript_path  = rebase_path(vscript_path, root_build_dir)
+  build_source_header = rebase_path(output_source, root_build_dir)
+
+  version = exec_script("$build_vscript_path", ["--file=$build_version_path",
+     "-t @MAJOR@.@MINOR@.@BUILD@.@PATCH@"], "list lines")
+  version_str = version[0]
+
+  args = [
+    "$build_source_header", "$version_str",
+  ]
+}
+
 # we need a target matching the parent folder name
 executable("hello-cbase") {
   sources = [
     "common/cbase_switches.cc",
     "common/cbase_switches.hh",
     "common/hello_cbase_main.cc",
+    "$root_gen_dir/cbase_version.cc"
   ]
   include_dirs = [ target_gen_dir ]
 
@@ -51,6 +79,7 @@ executable("hello-cbase") {
   deps = [
     "//build/util:last_change",
     ":version",
+    ":version-source",
     "//base",
   ]
 
@@ -61,32 +90,6 @@ executable("hello-cbase") {
   #  "//build/config/compiler:no_chromium_code",
   #]
 }
-
-# TODO make this an action in gn
-# create version constant file
-#'target_defaults': {
-#    'actions': [{
-#      'action_name': 'Make cbase_version.cc',
-#      'variables': {
-#        'make_version_cc_path': 'tools/build/make_version_cc.py',
-#      },
-#      'inputs': [
-#        '<(make_version_cc_path)',
-#        'VERSION',
-#      ],
-#      'outputs': [
-#        '<(INTERMEDIATE_DIR)/cbase_version.cc',
-#      ],
-#      'action': [
-#        'python',
-#        '<(make_version_cc_path)',
-#        '<@(_outputs)',
-#        '<(version_full)',
-#      ],
-#      'process_outputs_as_sources': 1,
-#    },],
-#  },
-#'branding_path': '<(DEPTH)/hello-cbase/BRANDING',
 
 ## Config used only by ICU code.
 #config("icu_code") {
@@ -118,6 +121,3 @@ executable("hello-cbase") {
 #    ]
 #  }
 #}
-
-
-
