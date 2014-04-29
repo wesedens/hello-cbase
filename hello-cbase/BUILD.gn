@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-custom("version") {
+action("version") {
   script = "//build/util/version.py"
 
   # This script must be run before targets depending on us.
@@ -35,7 +35,7 @@ custom("version") {
   ]
 }
 
-custom("version-source") {
+action("version-source") {
   script  = "//hello-cbase/tools/build/make_version_cc.py"
 
   # This script must be run before targets depending on us.

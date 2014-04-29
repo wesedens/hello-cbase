@@ -57,6 +57,7 @@
 
 /testing/
 /third_party/apple_apsl/
+/third_party/binutils/
 /third_party/clang_format/
 /third_party/gold/
 /third_party/icu/

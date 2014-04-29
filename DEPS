@@ -16,12 +16,12 @@
 # this build configuration.
 
 vars = {
-  "chrome_revision": "256972",
+  "chrome_revision": "266735",
   "gmock_revision": "453",
   "gtest_revision": "677",
-  "gyp_revision": "1857",
-  "swarming_revision": "4196cfcee5becb6003174661b6af40cb5b1af126",
-  "clang_format_revision": "198831",
+  "gyp_revision": "1909",
+  "swarming_revision": "b19319e0bc258985a01760c4260fcfb2b338db2b",
+  "clang_format_revision": "207485",
 
   "googlecode_url": "http://%s.googlecode.com/svn", 
   "chrome_base": "http://src.chromium.org/svn/trunk",
@@ -45,15 +45,15 @@ deps = {
   "src/third_party/apple_apsl":
     Var("chrome_base") + "/src/third_party/apple_apsl@" +
         Var("chrome_revision"),
+  "src/third_party/binutils":
+    Var("chrome_base") + "/src/third_party/binutils@" +
+        Var("chrome_revision"),
   "src/third_party/clang_format":
     Var("chrome_base") + "/src/third_party/clang_format@" +
         Var("chrome_revision"),
   "src/third_party/clang_format/script":
     Var("llvm_url") + "/cfe/trunk/tools/clang-format@" +
         Var("clang_format_revision"),
-  "src/third_party/gold":
-    Var("chrome_base") + "/deps/third_party/gold@" +
-        Var("chrome_revision"),
   "src/third_party/icu":
     Var("chrome_base") + "/deps/third_party/icu46@" +
         Var("chrome_revision"),
@@ -81,6 +81,9 @@ deps = {
     Var("chrome_base") + "/src/tools/clang@" + Var("chrome_revision"),
   "src/tools/gn":
     Var("chrome_base") + "/src/tools/gn@" + Var("chrome_revision"),
+  "src/tools/generate_library_loader":
+    Var("chrome_base") + "/src/tools/generate_library_loader@" +
+        Var("chrome_revision"),
   "src/tools/gyp":
     (Var("googlecode_url") % "gyp") + "/trunk@" + Var("gyp_revision"),
   "src/tools/swarming_client":
@@ -104,7 +107,7 @@ hooks = [
     # which takes ~20s, but clang speeds up builds by more than 20s.
     "name": "clang",
     "pattern": ".",
-    "action": ["python", "src/tools/clang/scripts/update.py", "--mac-only"],
+    "action": ["python", "src/tools/clang/scripts/update.py"],
   },
   {
      # Update LASTCHANGE
@@ -191,6 +194,17 @@ hooks = [
                 "--no_auth",
                 "--bucket", "chromium-clang-format",
                 "-s", "src/third_party/clang_format/bin/linux/clang-format.sha1",
+    ],
+  },
+  # Pull binutils for linux, enabled debug fission for faster linking /
+  # debugging when used with clang on Ubuntu Precise.
+  # https://code.google.com/p/chromium/issues/detail?id=352046
+  {
+    "name": "binutils",
+    "pattern": "src/third_party/binutils",
+    "action": [
+        "python",
+        "src/third_party/binutils/download.py",
     ],
   },
   #{
