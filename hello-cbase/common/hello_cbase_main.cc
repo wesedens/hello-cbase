@@ -16,20 +16,42 @@
 #include "base/message_loop/message_loop.h"
 #include "base/run_loop.h"
 #include "base/strings/string_number_conversions.h"
+#include "base/strings/utf_string_conversions.h"
 #include "base/task_runner.h"
 #include "base/threading/thread.h"
 #include "base/time/time.h"
 #include "base/version.h"
+#include "hello-cbase/common/standard_out.hh"
 #include "version.h"  // NOLINT
 
 #include "cbase_switches.hh"
 #include "cbase_constants.hh"
 
-typedef std::string StringType;
+
+#if defined(OS_WIN)
+    // The native command line string type.
+    typedef std::wstring StringType;
+#elif defined(OS_POSIX)
+    typedef std::string StringType;
+#endif
+
 typedef std::vector<StringType> StringVector;
 
 // task runner
 namespace {
+
+std::vector<std::string> GetArgs(const CommandLine& cmdline)
+{
+    CommandLine::StringVector in_args = cmdline.GetArgs();
+#if defined(OS_WIN)
+    std::vector<std::string> out_args;
+    for (size_t i = 0; i < in_args.size(); i++)
+        out_args.push_back(base::WideToUTF8(in_args[i]));
+    return out_args;
+#else
+    return in_args;
+#endif
+}
 
 bool FindNonTrivialFactor(int n, int* factor) {
   // Really naive algorithm.
@@ -133,12 +155,12 @@ void BindTest(int limit)
     }
 }
 
-void LogInit()
+bool LogInit()
 {
     // init the logging api
     logging::LoggingSettings setting;
     setting.logging_dest = logging::LOG_DEFAULT;
-    logging::InitLogging(setting);
+    return logging::InitLogging(setting);
 }
 
 void LogTest()
@@ -172,23 +194,36 @@ int main(int argc, char* argv[])
 {
     static Version cbase_version(CBASE_VERSION_STRING);
     base::AtExitManager exit_manager;
+
+#if defined(OS_WIN)
+    CommandLine::set_slash_is_not_a_switch();
+#endif
     CHECK(CommandLine::Init(argc, argv));
-    const CommandLine& command_line = *CommandLine::ForCurrentProcess();
-    const StringType program_name = command_line.GetProgram().BaseName()
-        .value();
-    const char* version =cbase_version.GetString().c_str();
+
+    const CommandLine&       cmdline = *CommandLine::ForCurrentProcess();
+    std::vector<std::string> args    = GetArgs(cmdline);
+
+#if defined(OS_WIN)
+    const StringType  pname        = cmdline.GetProgram().BaseName().value();
+    const std::string program_name = std::string(pname.begin(), pname.end());
+#else
+    const StringType  program_name = cmdline.GetProgram().BaseName().value();
+#endif
+
+    const std::string version      = cbase_version.GetString();
 
     // we go to all the trouble of creating the version file, it'd be nice
     // if we used it
-    printf("%s: version macro: %s\n", program_name.c_str(), version);
-    printf("version: %s\n", cbase::kCbaseVersion);
-    printf("lastchange hash: %s\n", LASTCHANGE_STRING);
+    OutputString(program_name +": version macro: " +version +"\n");
+    OutputString("version: " + std::string(cbase::kCbaseVersion) +"\n");
+    OutputString("lastchange hash: " LASTCHANGE_STRING "\n");
 
-    StringVector args = command_line.GetArgs();
-    LogInit();
+// TODO: fix this for windows
+#if !defined(OS_WIN)
+    CHECK(LogInit());
+#endif
 
-
-    if (command_line.HasSwitch(switches::kLogTest)) {
+    if (cmdline.HasSwitch(switches::kLogTest)) {
         // logging test
         printf("\nRunning log test\n\n");
 
@@ -199,7 +234,7 @@ int main(int argc, char* argv[])
         LogTest();
     }
 
-    if (command_line.HasSwitch(switches::kBindTest)) {
+    if (cmdline.HasSwitch(switches::kBindTest)) {
         // Bind and callback test
         printf("\nRunning bind test\n\n");
 
@@ -216,7 +251,7 @@ int main(int argc, char* argv[])
         BindTest(n);
     }
 
-    if (command_line.HasSwitch(switches::kThreadTest)) {
+    if (cmdline.HasSwitch(switches::kThreadTest)) {
         // task and thread test
         printf("\nRunning thread test\n\n");
 
@@ -233,10 +268,10 @@ int main(int argc, char* argv[])
         TaskRunnerTest(n);
     }
 
-    if (command_line.HasSwitch(switches::kCommandLineTest)) {
+    if (cmdline.HasSwitch(switches::kCommandLineTest)) {
         // command line arguments test
         printf("\nRunning command line test\n\n");
-        CommandLineTest(command_line);
+        CommandLineTest(cmdline);
     }
     return 0;
 }

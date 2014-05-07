@@ -66,6 +66,9 @@ deps = {
   "src/third_party/modp_b64":
     Var("chrome_base") + "/src/third_party/modp_b64@" +
         Var("chrome_revision"),
+  "src/third_party/win_toolchain":
+    Var("chrome_base") + "/src/third_party/win_toolchain@" +
+        Var("chrome_revision"),
 
   "src/testing":
     Var("chrome_base") + "/src/testing@" + Var("chrome_revision"),
@@ -206,6 +209,12 @@ hooks = [
         "python",
         "src/third_party/binutils/download.py",
     ],
+  },
+  {
+    # Update the Windows toolchain if necessary.
+    "name": "win_toolchain",
+    "pattern": ".",
+    "action": ["python", "src/build/vs_toolchain.py", "update"],
   },
   #{
   #  # run generate ninja upon completion of sync

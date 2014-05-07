@@ -66,6 +66,7 @@
 /third_party/llvm/
 /third_party/mach_override/
 /third_party/modp_b64/
+/third_party/win_toolchain/
 /tools/
 
 # Ignore SVN metadata.

@@ -68,6 +68,7 @@ executable("hello-cbase") {
     "common/cbase_switches.cc",
     "common/cbase_switches.hh",
     "common/hello_cbase_main.cc",
+    "common/standard_out.cc",
     "$root_gen_dir/cbase_version.cc"
   ]
   include_dirs = [ target_gen_dir ]
