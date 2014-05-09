@@ -65,10 +65,14 @@ action("version-source") {
 # we need a target matching the parent folder name
 executable("hello-cbase") {
   sources = [
+    "common/bind_test.cc",
     "common/cbase_switches.cc",
     "common/cbase_switches.hh",
+    "common/command_line_test.cc",
     "common/hello_cbase_main.cc",
+    "common/log_test.cc",
     "common/standard_out.cc",
+    "common/thread_test.cc",
     "$root_gen_dir/cbase_version.cc"
   ]
   include_dirs = [ target_gen_dir ]

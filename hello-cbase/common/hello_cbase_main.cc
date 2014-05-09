@@ -6,26 +6,17 @@
 
 #include "base/at_exit.h"
 #include "base/base_switches.h"
-#include "base/bind.h"
-#include "base/bind_helpers.h"
-#include "base/callback.h"
 #include "base/command_line.h"
 #include "base/files/file_path.h"
-#include "base/location.h"
 #include "base/logging.h"
-#include "base/message_loop/message_loop.h"
-#include "base/run_loop.h"
-#include "base/strings/string_number_conversions.h"
 #include "base/strings/utf_string_conversions.h"
-#include "base/task_runner.h"
-#include "base/threading/thread.h"
-#include "base/time/time.h"
 #include "base/version.h"
+#include "hello-cbase/common/cbase_constants.hh"
+#include "hello-cbase/common/cbase_switches.hh"
+#include "hello-cbase/common/hello_cbase_tests.hh"
 #include "hello-cbase/common/standard_out.hh"
 #include "version.h"  // NOLINT
 
-#include "cbase_switches.hh"
-#include "cbase_constants.hh"
 
 
 #if defined(OS_WIN)
@@ -37,7 +28,7 @@
 
 typedef std::vector<StringType> StringVector;
 
-// task runner
+
 namespace {
 
 std::vector<std::string> GetArgs(const CommandLine& cmdline)
@@ -53,108 +44,6 @@ std::vector<std::string> GetArgs(const CommandLine& cmdline)
 #endif
 }
 
-bool FindNonTrivialFactor(int n, int* factor) {
-  // Really naive algorithm.
-  for (int i = 2; i < n; ++i) {
-    if (n % i == 0) {
-      *factor = i;
-      return true;
-    }
-  }
-  return false;
-}
-
-void FindNonTrivialFactorHelper(int n, int* factor, bool* found) {
-  *found = FindNonTrivialFactor(n, factor);
-}
-
-void PrintStatusUpdate(base::Time start_time) {
-  double num_seconds = (base::Time::Now() - start_time).InSecondsF();
-  printf("Waited for %f seconds...\n", num_seconds);
-}
-
-void PrintStatusUpdateRepeatedly(
-    const scoped_refptr<base::TaskRunner>& task_runner,
-    base::Time start_time,
-    base::TimeDelta print_interval) {
-  PrintStatusUpdate(start_time);
-  task_runner->PostDelayedTask(FROM_HERE,
-                               base::Bind(PrintStatusUpdateRepeatedly,
-                                          task_runner,
-                                          start_time,
-                                          print_interval),
-                               print_interval);
-}
-
-}  // namespace
-
-// task and thread test
-void TaskRunnerTest(int limit)
-{
-    base::Thread worker_thread("Worker thread");
-    CHECK(worker_thread.Start());
-
-    base::MessageLoop main_loop;
-    base::RunLoop     run_loop;
-
-    int factor = 0;
-    bool found = false;
-    worker_thread.message_loop_proxy()->PostTaskAndReply(
-            FROM_HERE,
-            base::Bind(&FindNonTrivialFactorHelper, limit, &factor, &found),
-            run_loop.QuitClosure());
-
-    PrintStatusUpdateRepeatedly(main_loop.message_loop_proxy(),
-            base::Time::Now(),
-            base::TimeDelta::FromSeconds(1));
-
-    run_loop.Run();
-
-    worker_thread.Stop();
-
-    if (found) {
-        printf("found non-trivial factor %d for %d\n", factor, limit);
-        DCHECK_EQ(limit % factor, 0);
-    } else {
-        printf("%d is prime\n", limit);
-    }
-}
-
-// bind and callback test
-namespace {
-
-struct FibonacciState {
-  FibonacciState() : i(0), j(1) {}
-
-  int i, j;
-};
-
-int ComputeNextFibonacciNumber(FibonacciState* state) {
-  int next = state->i + state->j;
-  state->i = state->j;
-  state->j = next;
-  return state->i;
-}
-
-base::Callback<int()> MakeFibonacciClosure() {
-  scoped_ptr<FibonacciState> state(new FibonacciState);
-  return base::Bind(&ComputeNextFibonacciNumber, base::Owned(state.release()));
-}
-
-}  // namespace
-
-void BindTest(int limit)
-{
-    base::Callback<int()> fibonacci_closure1 = MakeFibonacciClosure();
-    base::Callback<int()> fibonacci_closure2 = MakeFibonacciClosure();
-    for (int i = 0; i < limit; ++i) {
-        int j = fibonacci_closure1.Run();
-        int k = fibonacci_closure2.Run();
-        DCHECK_EQ(j, k);
-        printf("F_%d = %d\n", i, j);
-    }
-}
-
 bool LogInit()
 {
     // init the logging api
@@ -163,46 +52,25 @@ bool LogInit()
     return logging::InitLogging(setting);
 }
 
-void LogTest()
-{
-    // show some examples of logging
-    if (VLOG_IS_ON(2)) {
-        printf("vlog is on 2\n");
-    }
-
-    LOG(INFO) << "printed in debug and release";
-    DLOG(INFO) << "only printed when compiled with debug flags";
-    VLOG(1) << "printed when you run with --v=1 or more";
-    LOG_ASSERT(1);
-    DLOG_ASSERT(1);
-}
-
-void CommandLineTest(const CommandLine& command_line)
-{
-    // command line test
-    std::string greeting = command_line.GetSwitchValueASCII("greeting");
-    if (greeting.empty())
-        greeting = "Hello";
-    std::string name = command_line.GetSwitchValueASCII("name");
-    if (name.empty())
-        name = "world";
-    CHECK_GT(printf("%s, %s!\n", greeting.c_str(), name.c_str()), 0);
-}
+}  // namespace
 
 
 int main(int argc, char* argv[])
 {
     static Version cbase_version(CBASE_VERSION_STRING);
     base::AtExitManager exit_manager;
+    int retval = 0;
 
 #if defined(OS_WIN)
     CommandLine::set_slash_is_not_a_switch();
 #endif
+
     CHECK(CommandLine::Init(argc, argv));
 
     const CommandLine&       cmdline = *CommandLine::ForCurrentProcess();
     std::vector<std::string> args    = GetArgs(cmdline);
 
+    // windows has to be difficult
 #if defined(OS_WIN)
     const StringType  pname        = cmdline.GetProgram().BaseName().value();
     const std::string program_name = std::string(pname.begin(), pname.end());
@@ -210,13 +78,17 @@ int main(int argc, char* argv[])
     const StringType  program_name = cmdline.GetProgram().BaseName().value();
 #endif
 
-    const std::string version      = cbase_version.GetString();
+    const std::string version = cbase_version.GetString();
 
     // we go to all the trouble of creating the version file, it'd be nice
     // if we used it
-    OutputString(program_name +": version macro: " +version +"\n");
-    OutputString("version: " + std::string(cbase::kCbaseVersion) +"\n");
+    OutputString(program_name, DECORATION_BLUE);
+    OutputString(" [--bind-test] [--log-test] [--thread-test]\n"
+                 "            [--command-line-test] [<args>]\n");
+    OutputString("version macro  : " +version +"\n");
+    OutputString("version        : " + std::string(cbase::kCbaseVersion) +"\n");
     OutputString("lastchange hash: " LASTCHANGE_STRING "\n");
+
 
 // TODO: fix this for windows
 #if !defined(OS_WIN)
@@ -225,53 +97,27 @@ int main(int argc, char* argv[])
 
     if (cmdline.HasSwitch(switches::kLogTest)) {
         // logging test
-        printf("\nRunning log test\n\n");
-
-        if (argc <= 1) {
-            printf("%s: missing operand\n", argv[0]);
-            return -1;
-        }
         LogTest();
     }
 
     if (cmdline.HasSwitch(switches::kBindTest)) {
         // Bind and callback test
-        printf("\nRunning bind test\n\n");
-
-        if (0 == args.size()) {
-            printf("You must provide an argument for bind test\n");
-            return -1;
+        if (!BindTest(args)) {
+            retval = -1;
         }
-
-        int n;
-        if (!base::StringToInt(args[0].c_str(), &n) || n < 2) {
-            printf("%s: invalid n `%s'\n", argv[0], args[0].c_str());
-            return -1;
-        }
-        BindTest(n);
     }
 
     if (cmdline.HasSwitch(switches::kThreadTest)) {
         // task and thread test
-        printf("\nRunning thread test\n\n");
-
-        if (0 == args.size()) {
-            printf("You must provide an argument for thread test\n");
-            return -1;
+        if (TaskRunnerTest(args)) {
+            retval = -1;
         }
-
-        int n;
-        if (!base::StringToInt(args[0].c_str(), &n) || n < 2) {
-            printf("%s: invalid (n > 2) n `%s'\n", argv[0], args[0].c_str());
-            return -1;
-        }
-        TaskRunnerTest(n);
     }
 
     if (cmdline.HasSwitch(switches::kCommandLineTest)) {
         // command line arguments test
-        printf("\nRunning command line test\n\n");
         CommandLineTest(cmdline);
     }
-    return 0;
+
+    return retval;
 }
