@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#include <stdio.h>
 #include <vector>
 
 #include "base/bind.h"
@@ -57,7 +58,7 @@ bool BindTest(std::vector<std::string> args)
         int j = fibonacci_closure1.Run();
         int k = fibonacci_closure2.Run();
         DCHECK_EQ(j, k);
-        //OutputString("F_" +i +" = " +j +"\n");
+        printf("F_%d = %d\n", i, j);
     }
     return true;
 }
