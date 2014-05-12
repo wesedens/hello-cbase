@@ -109,7 +109,7 @@ int main(int argc, char* argv[])
 
     if (cmdline.HasSwitch(switches::kThreadTest)) {
         // task and thread test
-        if (TaskRunnerTest(args)) {
+        if (!TaskRunnerTest(args)) {
             retval = -1;
         }
     }
