@@ -16,209 +16,243 @@
 # this build configuration.
 
 vars = {
-  "chrome_revision": "268298",
-  "gmock_revision": "453",
-  "gtest_revision": "677",
-  "gyp_revision": "1909",
-  "swarming_revision": "b19319e0bc258985a01760c4260fcfb2b338db2b",
-  "clang_format_revision": "207485",
+  'chrome_revision': '292986',
+  'gmock_revision': '896ba0e03f520fb9b6ed582bde2bd00847e3c3f2',
+  'gtest_revision': '4650552ff637bb44ecf7784060091cbed3252211',
+  'gyp_revision': '2003',
+  'base_revision': '7a09531a94f2e63c2641cc6b1ca7a3643bdd928f',
+  'build_revision': 'a0dff5c9d863c676a99e9ad4ef37efb06006f23e',
+  'binutils_revision': '3712b74e80d1b7fd9bdf92651391885cc0bb34e6',
+  'clang_revision': '1c4cfe97b68d545e9e479247a8ca6e686853d0ed',
+  'icu_revision': '6242e2fbb36f486f2c0addd1c3cef67fc4ed33fb',
+  'swarming_revision': '5b827c923a90260bfd3fcd8601884b80c0c43a04',
+  'buildtools_revision': '6ea835db27479b9a5742e48b5e4466af7c2534ff',
+  'zlib_revision': 'a6bba37a33ad6d37112b7e8a6de06567f1ef597b',
 
-  "googlecode_url": "http://%s.googlecode.com/svn", 
-  "chrome_base": "http://src.chromium.org/svn/trunk",
-  "chromium_git": "https://chromium.googlesource.com",
+  'clang_format_revision': '222211',
+
+  'googlecode_url': 'http://%s.googlecode.com/svn',
+  'chrome_base': 'http://src.chromium.org/svn/trunk',
+  'chromium_git': 'https://chromium.googlesource.com',
 
   # mac
-  "llvm_url": "http://src.chromium.org/llvm-project",
-  "llvm_git": "https://llvm.googlesource.com",
+  'llvm_url': 'http://src.chromium.org/llvm-project',
+  'llvm_git': 'https://llvm.googlesource.com',
 }
 
 deps = {
-  "src/base":
-    Var("chrome_base") + "/src/base@" + Var("chrome_revision"),
+  'src/base':
+    Var('chromium_git') + '/chromium/src/base.git@' + Var('base_revision'),
 
-  "src/build":
-    Var("chrome_base") + "/src/build@" + Var("chrome_revision"),
+  'src/build':
+    Var('chromium_git') + '/chromium/src/build.git@' + Var('build_revision'),
 
-  "src/ipc":
-    Var("chrome_base") + "/src/ipc@" + Var("chrome_revision"),
+  'src/buildtools':
+    Var('chromium_git') + '/chromium/buildtools.git@' +
+    Var('buildtools_revision'),
 
-  "src/third_party/apple_apsl":
-    Var("chrome_base") + "/src/third_party/apple_apsl@" +
-        Var("chrome_revision"),
-  "src/third_party/binutils":
-    Var("chrome_base") + "/src/third_party/binutils@" +
-        Var("chrome_revision"),
-  "src/third_party/clang_format":
-    Var("chrome_base") + "/src/third_party/clang_format@" +
-        Var("chrome_revision"),
-  "src/third_party/clang_format/script":
-    Var("llvm_url") + "/cfe/trunk/tools/clang-format@" +
-        Var("clang_format_revision"),
-  "src/third_party/icu":
-    Var("chrome_base") + "/deps/third_party/icu46@" +
-        Var("chrome_revision"),
-  "src/third_party/libevent":
-    Var("chrome_base") + "/src/third_party/libevent@" +
-        Var("chrome_revision"),
-  "src/third_party/mach_override":
-    Var("chrome_base") + "/src/third_party/mach_override@" +
-        Var("chrome_revision"),
-  "src/third_party/modp_b64":
-    Var("chrome_base") + "/src/third_party/modp_b64@" +
-        Var("chrome_revision"),
-  "src/third_party/win_toolchain":
-    Var("chrome_base") + "/src/third_party/win_toolchain@" +
-        Var("chrome_revision"),
+  'src/ipc':
+    Var('chrome_base') + '/src/ipc@' + Var('chrome_revision'),
 
-  "src/testing":
-    Var("chrome_base") + "/src/testing@" + Var("chrome_revision"),
-  "src/testing/gmock":
-    "http://googlemock.googlecode.com/svn/trunk@" + Var("gmock_revision"),
-  "src/testing/gtest":
-    "http://googletest.googlecode.com/svn/trunk@" + Var("gtest_revision"),
+  'src/third_party/apple_apsl':
+    Var('chrome_base') + '/src/third_party/apple_apsl@' +
+    Var('chrome_revision'),
 
-  "src/tools":
-    File(Var("chrome_base") + "/src/tools/find_depot_tools.py@" +
-        Var("chrome_revision")),
-  "src/tools/clang":
-    Var("chrome_base") + "/src/tools/clang@" + Var("chrome_revision"),
-  "src/tools/gn":
-    Var("chrome_base") + "/src/tools/gn@" + Var("chrome_revision"),
-  "src/tools/generate_library_loader":
-    Var("chrome_base") + "/src/tools/generate_library_loader@" +
-        Var("chrome_revision"),
-  "src/tools/gyp":
-    (Var("googlecode_url") % "gyp") + "/trunk@" + Var("gyp_revision"),
-  "src/tools/swarming_client":
-    Var("chromium_git") + "/external/swarming.client.git@" +
-        Var("swarming_revision"),
-  "src/tools/xdisplaycheck":
-    Var("chrome_base") + "/src/tools/xdisplaycheck@" + Var("chrome_revision"),
+  'src/third_party/binutils':
+    Var('chrome_base') + '/src/third_party/binutils@' +
+    Var('chrome_revision'),
+
+  # GNU binutils assembler for x86-32.
+  'src/third_party/gnu_binutils':
+    Var('chromium_git') + '/native_client/deps/third_party/gnu_binutils.git@' +
+    'f4003433b61b25666565690caf3d7a7a1a4ec436',
+
+  'src/third_party/icu':
+    Var('chromium_git') + '/chromium/deps/icu52.git@' + Var('icu_revision'),
+
+  'src/third_party/libevent':
+    Var('chrome_base') + '/src/third_party/libevent@' +
+    Var('chrome_revision'),
+
+  'src/third_party/libxml':
+    Var('chrome_base') + '/src/third_party/libxml@' + Var('chrome_revision'),
+
+  'src/third_party/mach_override':
+    Var('chrome_base') + '/src/third_party/mach_override@' +
+    Var('chrome_revision'),
+
+  'src/third_party/modp_b64':
+    Var('chrome_base') + '/src/third_party/modp_b64@' +
+    Var('chrome_revision'),
+
+  'src/third_party/tcmalloc':
+    Var('chrome_base') + '/src/third_party/tcmalloc@' + Var('chrome_revision'),
+
+  'src/third_party/win_toolchain':
+    Var('chrome_base') + '/src/third_party/win_toolchain@' +
+    Var('chrome_revision'),
+
+  'src/third_party/zlib':
+    Var('chromium_git') + '/chromium/src/third_party/zlib@' +
+    Var('zlib_revision'),
+
+  'src/testing':
+    Var('chrome_base') + '/src/testing@' + Var('chrome_revision'),
+
+  'src/testing/gmock':
+    Var('chromium_git') + '/external/googlemock.git@' + Var('gmock_revision'),
+
+  'src/testing/gtest':
+    Var('chromium_git') + '/external/googletest.git@' + Var('gtest_revision'),
+
+  'src/tools':
+    File(Var('chrome_base') + '/src/tools/find_depot_tools.py@' +
+    Var('chrome_revision')),
+
+  'src/tools/clang':
+    Var('chromium_git') + '/chromium/src/tools/clang.git@' +
+    Var('clang_revision'),
+
+  'src/tools/gn':
+    Var('chrome_base') + '/src/tools/gn@' + Var('chrome_revision'),
+
+  'src/tools/generate_library_loader':
+    Var('chrome_base') + '/src/tools/generate_library_loader@' +
+    Var('chrome_revision'),
+
+  'src/tools/gyp':
+    Var('googlecode_url') % 'gyp' + '/trunk@' + Var('gyp_revision'),
+
+  'src/tools/swarming_client':
+    Var('chromium_git') + '/external/swarming.client.git@' +
+    Var('swarming_revision'),
+
+  'src/tools/xdisplaycheck':
+    Var('chrome_base') + '/src/tools/xdisplaycheck@' + Var('chrome_revision'),
 }
 
 
 include_rules = [
   # Everybody can use some things.
-  "+base",
-  "+build",
+  '+base',
+  '+build',
 ]
 
 hooks = [
   {
-    # Pull clang on mac. If nothing changed, or on non-mac platforms, this takes
-    # zero seconds to run. If something changed, it downloads a prebuilt clang,
-    # which takes ~20s, but clang speeds up builds by more than 20s.
-    "name": "clang",
-    "pattern": ".",
-    "action": ["python", "src/tools/clang/scripts/update.py"],
+    # Pull clang if needed or requested via GYP_DEFINES.
+    # Note: On Win, this should run after win_toolchain, as it may use it.
+    'name': 'clang',
+    'pattern': '.',
+    'action': ['python', 'src/tools/clang/scripts/update.py', '--if-needed'],
   },
   {
      # Update LASTCHANGE
-     "name": "lastchange",
-     "pattern": ".",
-     "action": ["python", "src/build/util/lastchange.py",
-                "--source-dir=src",
-                "-o", "src/build/util/LASTCHANGE"],
+     'name': 'lastchange',
+     'pattern': '.',
+     'action': ['python', 'src/build/util/lastchange.py',
+                '--source-dir=src',
+                '-o', 'src/build/util/LASTCHANGE'],
    },
   # Pull GN binaries. This needs to be before running GYP below.
   {
-    "name": "gn_win",
-    "pattern": "src/tools/gn/bin/win/gn.exe.sha1",
-    "action": [ "download_from_google_storage",
-                "--no_resume",
-                "--platform=win32",
-                "--no_auth",
-                "--bucket", "chromium-gn",
-                "-s", "src/tools/gn/bin/win/gn.exe.sha1",
+    'name': 'gn_win',
+    'pattern': '.',
+    'action': [ 'download_from_google_storage',
+                '--no_resume',
+                '--platform=win32',
+                '--no_auth',
+                '--bucket', 'chromium-gn',
+                '-s', 'src/buildtools/win/gn.exe.sha1',
     ],
   },
   {
-    "name": "gn_mac",
-    "pattern": "src/tools/gn/bin/mac/gn.sha1",
-    "action": [ "download_from_google_storage",
-                "--no_resume",
-                "--platform=darwin",
-                "--no_auth",
-                "--bucket", "chromium-gn",
-                "-s", "src/tools/gn/bin/mac/gn.sha1",
+    'name': 'gn_mac',
+    'pattern': '.',
+    'action': [ 'download_from_google_storage',
+                '--no_resume',
+                '--platform=darwin',
+                '--no_auth',
+                '--bucket', 'chromium-gn',
+                '-s', 'src/buildtools/mac/gn.sha1',
     ],
   },
   {
-    "name": "gn_linux",
-    "pattern": "src/tools/gn/bin/linux/gn.sha1",
-    "action": [ "download_from_google_storage",
-                "--no_resume",
-                "--platform=linux*",
-                "--no_auth",
-                "--bucket", "chromium-gn",
-                "-s", "src/tools/gn/bin/linux/gn.sha1",
+    'name': 'gn_linux32',
+    'pattern': '.',
+    'action': [ 'download_from_google_storage',
+                '--no_resume',
+                '--platform=linux*',
+                '--no_auth',
+                '--bucket', 'chromium-gn',
+                '-s', 'src/buildtools/linux32/gn.sha1',
     ],
   },
   {
-    "name": "gn_linux32",
-    "pattern": "src/tools/gn/bin/linux/gn32.sha1",
-    "action": [ "download_from_google_storage",
-                "--no_resume",
-                "--platform=linux*",
-                "--no_auth",
-                "--bucket", "chromium-gn",
-                "-s", "src/tools/gn/bin/linux/gn32.sha1",
+    'name': 'gn_linux64',
+    'pattern': '.',
+    'action': [ 'download_from_google_storage',
+                '--no_resume',
+                '--platform=linux*',
+                '--no_auth',
+                '--bucket', 'chromium-gn',
+                '-s', 'src/buildtools/linux64/gn.sha1',
     ],
   },
   # Pull clang-format binaries using checked-in hashes.
   {
-    "name": "clang_format_win",
-    "pattern": "src/third_party/clang_format/bin/win/clang-format.exe.sha1",
-    "action": [ "download_from_google_storage",
-                "--no_resume",
-                "--platform=win32",
-                "--no_auth",
-                "--bucket", "chromium-clang-format",
-                "-s", "src/third_party/clang_format/bin/win/clang-format.exe.sha1",
+    'name': 'clang_format_win',
+    'pattern': '.',
+    'action': [ 'download_from_google_storage',
+                '--no_resume',
+                '--platform=win32',
+                '--no_auth',
+                '--bucket', 'chromium-clang-format',
+                '-s', 'src/buildtools/win/clang-format.exe.sha1',
     ],
   },
   {
-    "name": "clang_format_mac",
-    "pattern": "src/third_party/clang_format/bin/mac/clang-format.sha1",
-    "action": [ "download_from_google_storage",
-                "--no_resume",
-                "--platform=darwin",
-                "--no_auth",
-                "--bucket", "chromium-clang-format",
-                "-s", "src/third_party/clang_format/bin/mac/clang-format.sha1",
+    'name': 'clang_format_mac',
+    'pattern': '..',
+    'action': [ 'download_from_google_storage',
+                '--no_resume',
+                '--platform=darwin',
+                '--no_auth',
+                '--bucket', 'chromium-clang-format',
+                '-s', 'src/buildtools/mac/clang-format.sha1',
     ],
   },
   {
-    "name": "clang_format_linux",
-    "pattern": "src/third_party/clang_format/bin/linux/clang-format.sha1",
-    "action": [ "download_from_google_storage",
-                "--no_resume",
-                "--platform=linux*",
-                "--no_auth",
-                "--bucket", "chromium-clang-format",
-                "-s", "src/third_party/clang_format/bin/linux/clang-format.sha1",
+    'name': 'clang_format_linux',
+    'pattern': '.',
+    'action': [ 'download_from_google_storage',
+                '--no_resume',
+                '--platform=linux*',
+                '--no_auth',
+                '--bucket', 'chromium-clang-format',
+                '-s', 'src/buildtools/linux64/clang-format.sha1',
     ],
   },
   # Pull binutils for linux, enabled debug fission for faster linking /
   # debugging when used with clang on Ubuntu Precise.
   # https://code.google.com/p/chromium/issues/detail?id=352046
   {
-    "name": "binutils",
-    "pattern": "src/third_party/binutils",
-    "action": [
-        "python",
-        "src/third_party/binutils/download.py",
+    'name': 'binutils',
+    'pattern': 'src/third_party/binutils',
+    'action': [
+        'python',
+        'src/third_party/binutils/download.py',
     ],
   },
   {
     # Update the Windows toolchain if necessary.
-    "name": "win_toolchain",
-    "pattern": ".",
-    "action": ["python", "src/build/vs_toolchain.py", "update"],
+    'name': 'win_toolchain',
+    'pattern': '.',
+    'action': ['python', 'src/build/vs_toolchain.py', 'update'],
   },
   #{
   #  # run generate ninja upon completion of sync
-  #  "pattern": ".",
-  #  "action": ["gn", "--root=src", "gen", "out/gn"],
+  #  'pattern': '.',
+  #  'action': ['gn', '--root=src', 'gen', 'out/gn'],
   #},
 ]

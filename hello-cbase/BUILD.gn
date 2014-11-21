@@ -5,9 +5,6 @@
 action("version") {
   script = "//build/util/version.py"
 
-  # This script must be run before targets depending on us.
-  hard_dep = true
-
   # Rerun the script any time this file changes.
   version_path    = "//hello-cbase/VERSION"
   branding_path   = "//hello-cbase/BRANDING"
@@ -38,9 +35,6 @@ action("version") {
 action("version-source") {
   script  = "//hello-cbase/tools/build/make_version_cc.py"
 
-  # This script must be run before targets depending on us.
-  hard_dep = true
-
   # Rerun the script any time this file changes.
   version_path    = "//hello-cbase/VERSION"
   vscript_path    = "//build/util/version.py"
@@ -50,15 +44,33 @@ action("version-source") {
   outputs         = [ output_source ]
 
   build_version_path  = rebase_path(version_path, root_build_dir)
-  build_vscript_path  = rebase_path(vscript_path, root_build_dir)
   build_source_header = rebase_path(output_source, root_build_dir)
 
-  version = exec_script("$build_vscript_path", ["--file=$build_version_path",
+  version = exec_script("$vscript_path", ["--file=$build_version_path",
      "-t @MAJOR@.@MINOR@.@BUILD@.@PATCH@"], "list lines")
   version_str = version[0]
 
   args = [
     "$build_source_header", "$version_str",
+  ]
+}
+
+action("last_change") {
+  script = "//build/util/lastchange.py"
+
+  # rerun the script any time this file changes.
+  inputs = [ "//build/util/LASTCHANGE" ]
+
+  output_header = "$target_gen_dir/last_change.h"
+  outputs = [ output_header ]
+
+  build_relative_src = rebase_path("//", root_build_dir)
+  build_relative_outputs = rebase_path(output_header, root_build_dir)
+
+  args = [
+    "--source-dir=$build_relative_src",
+    "--header=$build_relative_outputs",
+    "--version-macro=LAST_CHANGE",
   ]
 }
 
@@ -82,7 +94,7 @@ executable("hello-cbase") {
   ]
 
   deps = [
-    "//build/util:last_change",
+    ":last_change",
     ":version",
     ":version-source",
     "//base",
